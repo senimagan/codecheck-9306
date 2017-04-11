@@ -1,0 +1,18 @@
+### Java ###
+target/
+*.class
+*.jar
+
+### Python ###
+*.pyc
+
+### NodeJS ####
+node_modules/
+
+### For Automated Tests ###
+*_tmp
+*_tmp.*
+#**/ai/*_ai
+
+.DS_Store
+.editorconfig
