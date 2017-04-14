@@ -34,10 +34,10 @@ public class App {
 			
 			if (wordCheck(prevWord, currWord, wordGroup)){
 				if (turn){
-					System.out.println("FIRST (OK) " + currWord);
+					System.out.println("FIRST (OK): " + currWord);
 				}
 				else {
-					System.out.println("SECOND (OK) " + currWord);
+					System.out.println("SECOND (OK): " + currWord);
 				}
 				
 				wordGroup.remove(wordGroup.indexOf(currWord));
@@ -45,11 +45,11 @@ public class App {
 			}
 			else {
 				if (turn){
-					System.out.println("FIRST (NG) " + currWord);
+					System.out.println("FIRST (NG): " + currWord);
 					System.out.println("WIN - SECOND");
 				}
 				else {
-					System.out.println("SECOND (NG) " + currWord);
+					System.out.println("SECOND (NG): " + currWord);
 					System.out.println("WIN - FIRST");
 				}
 				isFinished = true;
