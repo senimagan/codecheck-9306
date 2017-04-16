@@ -107,6 +107,7 @@ public class App {
 				String regex = "^" + firstChar + ".*" + lastChar + "$";
 				if (str.matches(regex)){
 					currWord = str;
+					System.out.println(currWord);
 					break;
 				}
 			}
@@ -114,7 +115,6 @@ public class App {
 				break;
 			}
 		}
-		System.out.println(currWord);
 	}
 }
 
