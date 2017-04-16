@@ -57,7 +57,7 @@ public class App {
 			}
 			else {
 				firstHist.put(firstChar, 1);
-				if (keys.contains(firstChar)){
+				if (!keys.contains(firstChar)){
 					keys.add(firstChar);
 				}
 			}
@@ -66,7 +66,7 @@ public class App {
 			}
 			else {
 				lastHist.put(lastChar, 1);
-				if (keys.contains(lastChar)){
+				if (!keys.contains(lastChar)){
 					keys.add(lastChar);
 				}
 			}
