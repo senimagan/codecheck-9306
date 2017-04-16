@@ -2,13 +2,10 @@ package codecheck;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 public class App {
@@ -22,15 +19,9 @@ public class App {
 		String firstChar;
 		String lastChar;
 
-		List<String> wordGroup = new ArrayList<>(Arrays.asList(Arrays.copyOfRange(args, 1, args.length)));
-		StringBuilder sbWordGroup = new StringBuilder();
-		firstChar = prevWord.substring(prevWord.length() - 1);
-		for (int i = 1; i < args.length; i++){
-			if (args[i].matches("^" + firstChar + ".*$")){
-				sbWordGroup.append(args[i]);
-				sbWordGroup.append("\n");
-			}
-		}
+		List<String> order = Arrays.asList("x", "y", "k", "n", "z", "e", "l", "g", "t", "r", "o", "d", "h", "m", "w", "a", "s", "u", "f", "i", "p", "c", "b", "v", "j", "q");
+
+		List<String> wordGroup = new ArrayList<String>(Arrays.asList(Arrays.copyOfRange(args, 1, args.length)));
 
 		// 直前の回答の末尾文字から始まる単語の末尾文字だけ抽出
 		List<String> filteredWordGroup = wordGroup.stream()
@@ -40,11 +31,8 @@ public class App {
 //		System.out.println("初期単語群: " + wordGroup);
 //		System.out.println("直前回答末尾文字から始まる単語群: " + filteredWordGroup);
 
-		// 先頭文字と末尾文字の出現頻度の差分を算出
-		// 差分が大きい文字(key)で終わる単語を選択すると有利（る攻めの原理）
+
 		Map<String, Integer> firstHist = new HashMap<String, Integer>();
-		Map<String, Integer> lastHist = new HashMap<String, Integer>();
-		List<String> keys = new ArrayList<String>();
 
 		ListIterator<String> sItr = wordGroup.listIterator();
 		while (sItr.hasNext()){
@@ -57,65 +45,46 @@ public class App {
 			}
 			else {
 				firstHist.put(firstChar, 1);
-				keys.add(firstChar);
-			}
-			if (lastHist.containsKey(lastChar)){
-				lastHist.put(lastChar, lastHist.get(lastChar) + 1);
-			}
-			else {
-				lastHist.put(lastChar, 1);
-				keys.add(lastChar);
 			}
 		}
 
-		Map<String, Double> appearanceRate = new HashMap<String, Double>();
-		sItr = keys.listIterator();
-		while (sItr.hasNext()){
-			str = sItr.next();
-			if (lastHist.containsKey(str)){
-				if (firstHist.containsKey(str)){
-					appearanceRate.put(str, (double)lastHist.get(str) / firstHist.get(str));
-				}
-				else {
-					appearanceRate.put(str, Double.MAX_VALUE);
-				}
-			}
-			else {
-				appearanceRate.put(str, 0.0);
-			}
-		}
 
-		// diffHistをvalueでソート(List<Entry>)
-		List<Entry<String, Double>> entries = new ArrayList<Entry<String, Double>>(appearanceRate.entrySet());
-		Collections.sort(entries, new Comparator<Entry<String, Double>>(){
-			@Override
-			public int compare(Entry<String, Double> e1, Entry<String, Double> e2){
-				return e2.getValue().compareTo(e1.getValue());		// 降順
-				//return e1.getValue().compareTo(e2.getValue());	// 昇順
-			}
-		});
-
-		ListIterator<Entry<String, Double>> eItr = entries.listIterator();
 		firstChar = prevWord.substring(prevWord.length() - 1);
 		currWord = null;
-		while (eItr.hasNext()){
-			sItr = filteredWordGroup.listIterator();
-			Entry<String, Double> entry = eItr.next();
-			while (sItr.hasNext()){
-				str = sItr.next();
-				lastChar = entry.getKey();
+		ListIterator<String> oItr = order.listIterator();
+
+		String stockWord = null;
+		currWord = null;
+		while (oItr.hasNext()){
+			lastChar = oItr.next();
+			ListIterator<String> wgItr = filteredWordGroup.listIterator();
+			while (wgItr.hasNext()){
+				str = wgItr.next();
 				String regex = "^" + firstChar + ".*" + lastChar + "$";
 				if (str.matches(regex)){
-					currWord = str;
-					System.out.println(currWord);
-					break;
+					if (firstHist.containsKey(lastChar) && firstHist.get(lastChar) > 1){
+						currWord = str;
+						break;
+					}
+					else {
+						if (stockWord == null)
+							stockWord = str;
+					}
 				}
 			}
 			if (currWord != null){
+				//System.out.println(currWord);
 				break;
+			}
+		}
+		if (currWord != null){
+			System.out.println(currWord);
+		}
+		else {
+			if (stockWord != null){
+				System.out.println(stockWord);
 			}
 		}
 	}
 }
-
 
