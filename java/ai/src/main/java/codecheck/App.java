@@ -57,14 +57,18 @@ public class App {
 			}
 			else {
 				firstHist.put(firstChar, 1);
-				keys.add(firstChar);
+				if (keys.contains(firstChar)){
+					keys.add(firstChar);
+				}
 			}
 			if (lastHist.containsKey(lastChar)){
 				lastHist.put(lastChar, lastHist.get(lastChar) + 1);
 			}
 			else {
 				lastHist.put(lastChar, 1);
-				keys.add(lastChar);
+				if (keys.contains(lastChar)){
+					keys.add(lastChar);
+				}
 			}
 		}
 
@@ -117,5 +121,4 @@ public class App {
 		}
 	}
 }
-
 
