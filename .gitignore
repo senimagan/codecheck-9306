@@ -16,3 +16,5 @@ node_modules/
 
 .DS_Store
 .editorconfig
+dataset.txt
+dataset2.txt
